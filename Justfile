@@ -3,7 +3,11 @@ _default:
 
 # Build the kernel file
 build:
-    cargo build -Z build-std=core --target targets/raspi3.json --release
+    cargo build \
+        -Z build-std=core,compiler_builtins \
+        -Z build-std-features=compiler-builtins-mem \
+        --target targets/raspi3.json \
+        --release
     llvm-objcopy -O binary \
         target/raspi3/release/rust-os.elf \
         target/raspi3/release/kernel8.img
@@ -12,7 +16,7 @@ build:
 run: build
     qemu-system-aarch64 \
         -machine raspi3b \
-        -d in_asm \
+        -serial stdio \
         -display none \
         -kernel target/raspi3/release/kernel8.img
 

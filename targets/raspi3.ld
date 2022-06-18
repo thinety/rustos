@@ -6,7 +6,32 @@ SECTIONS
 
     .text :
     {
-        *(.text.init);
-        *(.text .text.*);
+        *(.text.init)
+        *(.text .text.*)
+    }
+
+    .rodata :
+    {
+        *(.rodata .rodata.*)
+    }
+
+    .symtab :
+    {
+        *(.symtab)
+    }
+
+    .strtab :
+    {
+        *(.strtab)
+    }
+
+    .shstrtab :
+    {
+        *(.shstrtab)
+    }
+
+    /DISCARD/ :
+    {
+        *(.*)
     }
 }

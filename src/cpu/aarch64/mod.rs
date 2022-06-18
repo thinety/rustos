@@ -1,10 +1,9 @@
-use core::arch::asm;
-use core::arch::global_asm;
+use core::arch::{asm, global_asm};
 
 global_asm!(include_str!("./init.s"));
 
-#[no_mangle]
-fn main() -> ! {
+#[inline(always)]
+pub fn wait_forever() -> ! {
     loop {
         unsafe {
             asm!("wfe");
