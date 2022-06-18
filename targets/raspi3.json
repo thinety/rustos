@@ -14,7 +14,7 @@
   "panic-strategy": "abort",
   "pre-link-args": {
     "ld.lld": [
-      "-Ttargets/raspi3/link.x"
+      "--script=targets/raspi3.ld"
     ]
   },
   "relocation-model": "static",

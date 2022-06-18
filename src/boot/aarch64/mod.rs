@@ -1,8 +1,10 @@
 use core::arch::asm;
+use core::arch::global_asm;
 
-#[link_section = ".text._start"]
+global_asm!(include_str!("./init.s"));
+
 #[no_mangle]
-fn _start() -> ! {
+fn main() -> ! {
     loop {
         unsafe {
             asm!("wfe");
