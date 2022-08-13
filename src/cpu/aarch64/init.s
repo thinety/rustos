@@ -1,11 +1,11 @@
 .section .text.init
 
-_start:
-    adr x0, _start
+start:
+    adr x0, start
     mov sp, x0
 
     b   main
 
-.size _start, . - _start
-.type _start, function
-.global _start
+.size start, . - start
+.type start, function
+.global start

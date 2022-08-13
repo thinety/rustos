@@ -1,4 +1,3 @@
-#![feature(decl_macro)]
 #![feature(panic_info_message)]
 #![no_main]
 #![no_std]

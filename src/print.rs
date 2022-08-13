@@ -15,11 +15,14 @@ impl fmt::Write for QEMUOutput {
 
 pub fn _kprint(args: fmt::Arguments) {
     use fmt::Write;
-    { QEMUOutput {} }.write_fmt(args).unwrap();
+
+    let mut qemu_output = QEMUOutput {};
+    qemu_output.write_fmt(args).unwrap();
 }
 
-pub macro kprint {
+macro_rules! kprint {
     ($($arg:tt)*) => {
-        _kprint(format_args!($($arg)*))
+        $crate::print::_kprint(format_args!($($arg)*))
     }
 }
+pub(crate) use kprint;

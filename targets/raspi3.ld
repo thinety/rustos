@@ -1,28 +1,16 @@
-ENTRY(_start);
-
 SECTIONS
 {
     . = 0x80000;
 
     .text :
     {
-        *(.text.init)
+        KEEP(*(.text.init))
         *(.text .text.*)
     }
 
     .rodata :
     {
         *(.rodata .rodata.*)
-    }
-
-    .symtab :
-    {
-        *(.symtab)
-    }
-
-    .strtab :
-    {
-        *(.strtab)
     }
 
     .shstrtab :
