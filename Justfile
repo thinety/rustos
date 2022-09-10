@@ -4,7 +4,7 @@ _default:
 # Build the kernel file
 build:
     cargo build \
-        -Z build-std=core,compiler_builtins \
+        -Z build-std=core \
         -Z build-std-features=compiler-builtins-mem \
         --target targets/raspi3.json \
         --release
