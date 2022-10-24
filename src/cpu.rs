@@ -1,6 +1,4 @@
-use core::arch::{asm, global_asm};
-
-global_asm!(include_str!("./init.s"));
+use core::arch::asm;
 
 #[inline(always)]
 pub fn wait_forever() -> ! {
