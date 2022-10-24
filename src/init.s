@@ -1,8 +1,8 @@
 .section .text.init
 
 start:
-    adr x0, start
-    mov sp, x0
+    adr x4, start
+    mov sp, x4
 
     b   main
 
