@@ -1,1 +1,1 @@
-# rust-os
+# rustos

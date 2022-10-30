@@ -1,10 +1,12 @@
+ENTRY(start)
+
 SECTIONS
 {
     . = 0x80000;
 
     .text :
     {
-        KEEP(*(.text.init))
+        *(.text.init)
         *(.text .text.*)
     }
 

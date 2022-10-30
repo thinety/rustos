@@ -1,8 +1,5 @@
 #![feature(panic_info_message)]
-#![no_main]
 #![no_std]
-
-core::arch::global_asm!(include_str!("./init.s"));
 
 mod cpu;
 mod panic;
