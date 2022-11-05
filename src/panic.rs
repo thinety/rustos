@@ -1,6 +1,6 @@
 use core::panic::PanicInfo;
 
-use crate::cpu;
+use crate::cpu::wait_forever;
 use crate::print::kprint;
 
 #[panic_handler]
@@ -22,5 +22,5 @@ fn panic(info: &PanicInfo) -> ! {
 
     kprint!("\n");
 
-    cpu::wait_forever();
+    wait_forever();
 }

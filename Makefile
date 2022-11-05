@@ -19,7 +19,7 @@ clean:
 run: target/$(TARGET)/release/kernel8.img
 	@qemu-system-aarch64 \
 		-machine raspi3b \
-		-serial stdio \
+		-serial null -serial stdio \
 		-display none \
 		-kernel $^
 

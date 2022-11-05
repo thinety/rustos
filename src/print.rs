@@ -1,13 +1,13 @@
-use core::{fmt, ptr};
+use core::fmt;
 
-struct QEMUOutput {}
+use crate::uart;
 
-impl fmt::Write for QEMUOutput {
+struct Uart {}
+
+impl fmt::Write for Uart {
     fn write_str(&mut self, s: &str) -> fmt::Result {
         for b in s.bytes() {
-            unsafe {
-                ptr::write_volatile(0x3F20_1000 as *mut _, b);
-            }
+            uart::transmit(b);
         }
         Ok(())
     }
@@ -16,8 +16,8 @@ impl fmt::Write for QEMUOutput {
 pub fn _kprint(args: fmt::Arguments) {
     use fmt::Write;
 
-    let mut qemu_output = QEMUOutput {};
-    qemu_output.write_fmt(args).unwrap();
+    let mut uart = Uart {};
+    uart.write_fmt(args).unwrap();
 }
 
 macro_rules! kprint {

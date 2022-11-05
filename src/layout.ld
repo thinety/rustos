@@ -15,13 +15,8 @@ SECTIONS
         *(.rodata .rodata.*)
     }
 
-    .shstrtab :
-    {
-        *(.shstrtab)
-    }
-
     /DISCARD/ :
     {
-        *(.*)
+        *(.comment)
     }
 }
