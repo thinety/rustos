@@ -15,6 +15,10 @@ SECTIONS
         *(.rodata .rodata.*)
     }
 
+    .symtab : { *(.symtab) }
+    .strtab : { *(.strtab) }
+    .shstrtab : { *(.shstrtab) }
+
     /DISCARD/ :
     {
         *(.comment)
