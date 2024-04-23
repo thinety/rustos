@@ -2,12 +2,12 @@ use core::fmt;
 
 use crate::uart;
 
-struct Uart {}
+struct UartFmt(uart::Uart);
 
-impl fmt::Write for Uart {
+impl fmt::Write for UartFmt {
     fn write_str(&mut self, s: &str) -> fmt::Result {
         for b in s.bytes() {
-            uart::transmit(b);
+            self.0.transmit(b);
         }
         Ok(())
     }
@@ -16,8 +16,8 @@ impl fmt::Write for Uart {
 pub fn _kprint(args: fmt::Arguments) {
     use fmt::Write;
 
-    let mut uart = Uart {};
-    uart.write_fmt(args).unwrap();
+    let uart = uart::uart();
+    UartFmt(uart).write_fmt(args).unwrap();
 }
 
 macro_rules! kprint {

@@ -1,6 +1,7 @@
 use core::ptr;
 
 use crate::cpu::delay;
+use crate::sync::{Mutex, MutexGuard};
 
 const GPFSEL1: *mut u32 = 0x3F20_0004 as _;
 
@@ -54,7 +55,7 @@ pub fn init() {
     }
 }
 
-pub fn receive() -> u8 {
+fn receive() -> u8 {
     loop {
         let symbol_available = unsafe { ptr::read_volatile(AUX_MU_STAT_REG) & 0b01 } != 0;
         if symbol_available {
@@ -64,7 +65,7 @@ pub fn receive() -> u8 {
     unsafe { ptr::read_volatile(AUX_MU_IO_REG) as u8 }
 }
 
-pub fn transmit(data: u8) {
+fn transmit(data: u8) {
     loop {
         let space_available = unsafe { ptr::read_volatile(AUX_MU_STAT_REG) & 0b10 } != 0;
         if space_available {
@@ -72,4 +73,54 @@ pub fn transmit(data: u8) {
         }
     }
     unsafe { ptr::write_volatile(AUX_MU_IO_REG, data as u32) };
+}
+
+struct UartRaw {
+    received_bytes: usize,
+    transmitted_bytes: usize,
+}
+
+impl UartRaw {
+    const fn new() -> Self {
+        Self {
+            received_bytes: 0,
+            transmitted_bytes: 0,
+        }
+    }
+
+    fn receive(&mut self) -> u8 {
+        self.received_bytes += 1;
+        receive()
+    }
+
+    fn transmit(&mut self, data: u8) {
+        self.transmitted_bytes += 1;
+        transmit(data);
+    }
+}
+
+pub struct Uart(MutexGuard<'static, UartRaw>);
+
+pub fn uart() -> Uart {
+    static UART_MUTEX: Mutex<UartRaw> = Mutex::new(UartRaw::new());
+
+    Uart(UART_MUTEX.lock())
+}
+
+impl Uart {
+    pub fn received_bytes(&self) -> usize {
+        self.0.received_bytes
+    }
+
+    pub fn receive(&mut self) -> u8 {
+        self.0.receive()
+    }
+
+    pub fn transmitted_bytes(&self) -> usize {
+        self.0.transmitted_bytes
+    }
+
+    pub fn transmit(&mut self, data: u8) {
+        self.0.transmit(data);
+    }
 }

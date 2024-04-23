@@ -15,6 +15,11 @@ SECTIONS
         *(.rodata .rodata.*)
     }
 
+    .bss :
+    {
+        *(.bss .bss.*)
+    }
+
     .symtab : { *(.symtab) }
     .strtab : { *(.strtab) }
     .shstrtab : { *(.shstrtab) }
